@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Gastos</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">CONTROL GASTOS</a>
+        </div>
+    </nav>
+
+    <!-- Presupuesto inicial -->
+    <div class="container mt-4" id="divPresupuesto">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h2 class="card-title mb-3 text-center">PRESUPUESTO INICIAL</h2>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="inputPresupuesto" placeholder="Ingrese su presupuesto">
+                    </div>
+                    <button id="btnIniciar" class="btn btn-primary btn-block">INICIAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gastos -->
+    <div class="container mt-4" id="divGastos" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h2 class="card-title mb-3 text-center">GASTOS</h2>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <!-- Gráfico circular -->
+                            <div class="progress-circle">
+                                <svg width="140" height="140" viewBox="0 0 140 140">
+                                    <defs>
+                                        <linearGradient id="gradient-progress" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#00bcd4; stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#ff5722; stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="70" cy="70" r="54" fill="none" stroke="#ccc" stroke-width="12"></circle>
+                                    <circle id="progressCircle" cx="70" cy="70" r="54" fill="none" stroke="url(#gradient-progress)" stroke-width="12" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+                                    <text id="progressText" x="70" y="80" font-size="20" text-anchor="middle" fill="#00bcd4" font-family="'Orbitron', sans-serif">100%</text>
+                                </svg>
+                                
+                                <center><img src="icon1.png" alt="" width="50" height="50" data-toggle="modal" data-target="#exampleModal"></center>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="mb-1">Presupuesto: <strong id="presupuestoDisplay">$0.0</strong></p>
+                            <p class="mb-1">Disponible: <strong id="disponibleDisplay">$0.0</strong></p>
+                            <p class="mb-1">Gastado: <strong id="gastadoDisplay">$0.0</strong></p>
+                            <button class="btn btn-danger mb-3" id="btnReset">RESET</button>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <!-- Categoría -->
+    <div class="container mt-4" id="divCategoria" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h2 class="card-title mb-3 text-center">CATEGORÍA</h2>
+                    <div class="form-group">
+                        <select class="form-control" name="categoria" id="categoria">
+                            <option value="">todos</option>
+                            <option value="comida">comida</option>
+                            <option value="ahorro">ahorro</option>
+                            <option value="casa">casa</option>
+                            <option value="ocio">ocio</option>
+                            <option value="salud">salud</option>
+                            <option value="varios">varios</option>
+                            <option value="suscripciones">suscripciones</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gastos (no hay gastos) -->
+    <div class="container mt-4" id="divGastosNoHay" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h2 class="card-title mb-3 text-center">GASTOS</h2>
+                    <div class="form-group text-center">
+                        <small>No hay gastos</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">NUEVO GASTO</h1>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Contenido del modal -->
+                    <form>
+                        <div class="mb-3">
+                          <label for="recipient-name" class="col-form-label">Descripción:</label>
+                          <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                          <label for="message-text" class="col-form-label">Costo:</label>
+                          <input type="number" class="form-control" id="recipient-cost">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Categoría:</label>
+                            <select class="form-control" id="new-gasto-categoria">
+                                <option value="">todos</option>
+                                <option value="comida">comida</option>
+                                <option value="ahorro">ahorro</option>
+                                <option value="casa">casa</option>
+                                <option value="ocio">ocio</option>
+                                <option value="salud">salud</option>
+                                <option value="varios">varios</option>
+                                <option value="suscripciones">suscripciones</option>
+                            </select>
+                            
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="saveGastoBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editModalLabel">EDITAR GASTO</h1>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="edit-recipient-name" class="col-form-label">Descripción:</label>
+                            <input type="text" class="form-control" id="edit-recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-recipient-cost" class="col-form-label">Costo:</label>
+                            <input type="number" class="form-control" id="edit-recipient-cost">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-categoria" class="col-form-label">Categoría:</label>
+                            <select class="form-control" id="edit-categoria">
+                                <option value="comida">comida</option>
+                                <option value="ahorro">ahorro</option>
+                                <option value="casa">casa</option>
+                                <option value="ocio">ocio</option>
+                                <option value="salud">salud</option>
+                                <option value="varios">varios</option>
+                                <option value="suscripciones">suscripciones</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="saveEditBtn">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
